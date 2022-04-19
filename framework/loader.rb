@@ -9,3 +9,5 @@ settings.load_dirs.each do |directory_to_load|
 end
 
 APPLICATION_LOADER.setup
+
+APPLICATION_LOADER.eager_load
