@@ -1,1 +1,2 @@
-ROOT = File.expand_path(File.join(__dir__, ".."))
+require "pathname"
+ROOT = Pathname(File.join(__dir__, "..")).expand_path
