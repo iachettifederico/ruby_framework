@@ -11,7 +11,7 @@ RSpec.configure do |config|
   )
 
   config.after do |example|
-    unless assertions_have_been_run
+    unless assertions_have_been_run || example.exception
       no_assertions_error = RuntimeError.new("No assertion run in example '#{example.description}'")
       no_assertions_error.set_backtrace([example.location])
       raise no_assertions_error
