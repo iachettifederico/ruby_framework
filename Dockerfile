@@ -28,7 +28,7 @@ COPY Gemfile Gemfile.lock $APP_ROOT/
 # Development image
 #
 FROM builder-base AS development
-ARG GEMS_DEV="pessimize"
+ARG GEMS_DEV="pessimizer"
 ARG PACKAGES_DEV="zsh curl wget sudo"
 ARG PACKAGES_RUNTIME
 ARG USERNAME=developer
