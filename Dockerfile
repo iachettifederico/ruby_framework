@@ -1,7 +1,7 @@
 ARG APP_ROOT=/app
 ARG BUNDLE_PATH=/bundler
 ARG PACKAGES_RUNTIME=""
-ARG RUBY_VERSION="3.2.0-preview3"
+ARG RUBY_VERSION="3.2.1"
 
 ################################################################################
 # Base configuration
