@@ -1,7 +1,7 @@
 class Settings
   def load_dirs
     [
-      "#{ROOT}/lib",
+      ROOT.join("lib"),
     ]
   end
 
