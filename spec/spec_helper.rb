@@ -1,19 +1,6 @@
 ENV['ENVIRONMENT_NAME'] = "test"
 
-if ENV["COVERAGE"] == "true"
-  require 'simplecov'
-  SimpleCov.start do
-    add_filter "/spec/"
-    add_filter "/config/"
-    add_filter "/framework/"
-  end
-
-  require "./boot"
-  APPLICATION_LOADER.eager_load
-  puts "Running specs with coverage".yellow
-else
-  require "./boot"
-end
+require "./boot"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
