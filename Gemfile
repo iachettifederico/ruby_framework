@@ -1,7 +1,7 @@
 source "https://rubygems.org"
 
+gem "awesome_print"
 gem "zeitwerk"
-gem "amazing_print"
 
 group :development do
   gem "rake"
