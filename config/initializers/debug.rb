@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 def m(an_object)
   (an_object.methods - Object.new.methods).sort
 end
