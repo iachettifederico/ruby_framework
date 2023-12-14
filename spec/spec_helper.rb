@@ -1,4 +1,6 @@
-ENV['ENVIRONMENT_NAME'] = "test"
+# frozen_string_literal: true
+
+ENV["ENVIRONMENT_NAME"] = "test"
 
 require "./boot"
 

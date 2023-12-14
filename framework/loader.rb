@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require "zeitwerk"
 
 APPLICATION_LOADER = Zeitwerk::Loader.new

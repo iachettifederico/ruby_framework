@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 RSpec.configure do |config|
   config.include(
-    Module.new {
+    Module.new do
       attr_accessor :assertions_have_been_run
 
       def expect(*)
         self.assertions_have_been_run = true
         super
       end
-    }
+    end
   )
 
   config.after do |example|
