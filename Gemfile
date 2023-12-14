@@ -7,6 +7,8 @@ gem "zeitwerk"
 
 group :development do
   gem "rake"
+  gem "rubocop"
+  gem "rubocop-rake"
 end
 
 group :test do
