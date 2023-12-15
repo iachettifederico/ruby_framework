@@ -3,7 +3,8 @@
 class Settings
   def load_dirs
     [
-      ROOT.join("lib")
+      ROOT.join("lib"),
+      ROOT.join("web"),
     ]
   end
 

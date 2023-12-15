@@ -53,8 +53,9 @@ Style/AccessorGrouping:
 Style/BlockDelimiters:
   EnforcedStyle: semantic
   Exclude:
-  - web/view/**/*.rb
-  - web/component/**/*.rb
+  - web/components/**/*.rb
+  - web/layouts/**/*.rb
+  - web/views/**/*.rb
   BracesRequiredMethods:
   - let
   - let!

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Components
-  class NavBar < Component::ApplicationComponent
+  class NavBar < Components::ApplicationComponent
     def template
       nav(class: "mb-4 text-black bg-transparent") do
         ul(class: "flex gap-2 border-b") do

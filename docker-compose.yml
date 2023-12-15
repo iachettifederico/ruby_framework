@@ -10,6 +10,7 @@ x-build-common: &build-common
 x-app-common: &app-common
   stdin_open: true
   tty: true
+  entrypoint: script/docker-entrypoint.sh
   volumes:
     - .:/app
     - bundler:/bundler
@@ -17,13 +18,12 @@ x-app-common: &app-common
 services:
   web:
     <<: [*build-common, *app-common]
-    command: bundle exec rails s -b 0.0.0.0
+    command: rerun --pattern **/*.{rb,ru,yml} -- bundle exec rackup --host=0.0.0.0
     ports:
-      - "3000:3000"
+      - 9292:9292
     environment:
       ENVIRONMENT: development
       HISTFILE: /app/.zsh_history
-      REDIS_URL: redis://redis:6379/0
 
   guard:
     <<: [*build-common, *app-common]
@@ -31,13 +31,14 @@ services:
       - web
     command: bundle exec guard
     ports:
-      - "35729:35729"
+      - 35729:35729
 
-  tailwind:
+  tailwindcss:
     <<: [*build-common, *app-common]
-    command: bundle exec bin/rails tailwindcss:watch
-    environment:
-      REDIS_URL: redis://redis:6379/0
+    entrypoint: script/docker-entrypoint-tailwind.sh
+    command: npx tailwindcss -i ./web/assets/index.css -o ./assets/css/index.css --watch
+    volumes:
+      - .:/app
 
 volumes:
   bundler:
