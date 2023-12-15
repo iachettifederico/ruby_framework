@@ -3,6 +3,8 @@
 source "https://rubygems.org"
 
 gem "awesome_print"
+gem "rackup"
+gem "roda"
 gem "zeitwerk"
 
 group :development do

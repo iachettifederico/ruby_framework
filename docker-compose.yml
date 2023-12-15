@@ -15,7 +15,7 @@ x-app-common: &app-common
     - bundler:/bundler
 
 services:
-  app:
+  web:
     <<: [*build-common, *app-common]
     command: bundle exec rails s -b 0.0.0.0
     ports:
@@ -23,6 +23,20 @@ services:
     environment:
       ENVIRONMENT: development
       HISTFILE: /app/.zsh_history
+      REDIS_URL: redis://redis:6379/0
+
+  guard:
+    <<: [*build-common, *app-common]
+    depends_on:
+      - web
+    command: bundle exec guard
+    ports:
+      - "35729:35729"
+
+  tailwind:
+    <<: [*build-common, *app-common]
+    command: bundle exec bin/rails tailwindcss:watch
+    environment:
       REDIS_URL: redis://redis:6379/0
 
 volumes:
