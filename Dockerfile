@@ -61,7 +61,7 @@ COPY deployment/nginx.conf /etc/nginx/conf.d/default.conf
 # Development image
 #
 FROM builder-base AS development
-ARG GEMS_DEV="pessimizer"
+ARG GEMS_DEV="pessimizer rerun"
 ARG PACKAGES_DEV="zsh curl wget sudo"
 ARG PACKAGES_RUNTIME="tzdata nodejs"
 ARG USERNAME=developer
