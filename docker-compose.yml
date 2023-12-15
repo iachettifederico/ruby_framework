@@ -1,12 +1,29 @@
+---
 version: "3.7"
+
+x-build-common: &build-common
+  build:
+    context: .
+    dockerfile: Dockerfile
+    target: development
+
+x-app-common: &app-common
+  stdin_open: true
+  tty: true
+  volumes:
+    - .:/app
+    - bundler:/bundler
 
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    stdin_open: true
-    tty: true
-    entrypoint: script/docker-entrypoint.sh
-    volumes:
-      - .:/app
+    <<: [*build-common, *app-common]
+    command: bundle exec rails s -b 0.0.0.0
+    ports:
+      - "3000:3000"
+    environment:
+      ENVIRONMENT: development
+      HISTFILE: /app/.zsh_history
+      REDIS_URL: redis://redis:6379/0
+
+volumes:
+  bundler:
