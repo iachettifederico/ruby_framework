@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Views
-  class HomePage < View::Layout
+  class HomePage < Views::ApplicationView
     def template
       h1 { "Home page" }
     end

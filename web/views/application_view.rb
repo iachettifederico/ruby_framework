@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Views
-  class ApplicationView < Component::ApplicationComponent
+  class ApplicationView < Layouts::ApplicationLayout
     def self.[](app)
       @app = app
       self
