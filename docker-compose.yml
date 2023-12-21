@@ -10,7 +10,6 @@ x-build-common: &build-common
 x-app-common: &app-common
   stdin_open: true
   tty: true
-  entrypoint: script/docker-entrypoint.sh
   volumes:
     - .:/app
     - bundler:/bundler
@@ -18,25 +17,27 @@ x-app-common: &app-common
 services:
   web:
     <<: [*build-common, *app-common]
-    command: rerun --pattern **/*.{rb,ru,yml} -- bundle exec rackup --host=0.0.0.0
-    ports:
-      - 9292:9292
-    environment:
-      ENVIRONMENT: development
-      HISTFILE: /app/.zsh_history
-
-  guard:
-    <<: [*build-common, *app-common]
+    command: "rerun --pattern **/*.{rb,ru,yml} -- bundle exec rackup --host=0.0.0.0"
+    tty: true
+    stdin_open: true
+    entrypoint: script/docker-entrypoint.sh
     depends_on:
-      - web
-    command: bundle exec guard
+      - tailwindcss
+    environment:
+      ENVIRONMENT_NAME: development
+      HISTFILE: /app/.zsh_history
+    expose:
+      - 9292
     ports:
-      - 35729:35729
+      - "9292:9292"
+    volumes:
+      - .:/app
+      - bundler:/bundler
 
   tailwindcss:
     <<: [*build-common, *app-common]
     entrypoint: script/docker-entrypoint-tailwind.sh
-    command: npx tailwindcss -i ./web/assets/index.css -o ./assets/css/index.css --watch
+    command: "npx tailwindcss -i ./web/assets/index.css -o ./assets/css/index.css --watch"
     volumes:
       - .:/app
 
