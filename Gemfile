@@ -15,6 +15,7 @@ gem "zeitwerk"
 group :development do
   gem "guard-livereload", require: false
   gem "rake"
+  gem "rerun"
   gem "rubocop"
   gem "rubocop-rake"
 end
