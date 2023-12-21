@@ -41,5 +41,14 @@ services:
     volumes:
       - .:/app
 
+  guard:
+    <<: [*build-common, *app-common]
+    depends_on:
+      - web
+    command: bundle exec guard
+    ports:
+      - "35729:35729"
+
+
 volumes:
   bundler:

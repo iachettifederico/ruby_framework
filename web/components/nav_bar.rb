@@ -3,18 +3,13 @@
 module Components
   class NavBar < Components::ApplicationComponent
     def template
-      nav(class: "mb-4 text-black bg-transparent") do
+      nav(class: "mb-4 text-slate-50 bg-slate-900") do
         ul(class: "flex gap-2 border-b") do
-          li(class: "shadow-lg hover:shadow-sm") do
-            a(href: "/") {
-              img(class: "p-1 w-8 h-auto", src: "/public/images/logo.png",
-                  alt: "home page")
-            }
+          li(class: "p-2 shadow-lg hover:shadow-sm") do
+            a(href: "/") { "Home" }
           end
 
-          item(text: "Pacientes", url: "/patients")
-
-          item(text: "Reset!", url: "/reset") if ENV.fetch("ENVIRONMENT_NAME") == "development"
+          item(text: "Another Link", url: "/") if ENV.fetch("ENVIRONMENT_NAME") == "development"
         end
       end
     end
@@ -22,7 +17,7 @@ module Components
     private
 
     def item(text:, url:)
-      li(class: "px-2 shadow-lg hover:shadow-sm") do
+      li(class: "p-2 shadow-lg hover:shadow-sm") do
         a(href: url) { text }
       end
     end
