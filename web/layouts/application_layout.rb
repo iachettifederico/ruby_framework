@@ -14,6 +14,7 @@ module Layouts
 
         body do
           render Components::NavBar.new
+
           main(class: "mx-4") do
             yield
           end
