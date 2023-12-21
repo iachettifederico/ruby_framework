@@ -21,13 +21,14 @@ ENV PATH="$BUNDLE_BIN:$PATH"
 WORKDIR $APP_ROOT
 
 RUN apt-get update && apt-get upgrade -y && \
-  apt-get install -y --no-install-recommends curl gnupg && \
-  curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
-  apt-get remove -y cmdtest && \
-  curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
-  echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
-  apt-get update && apt-get install -y --no-install-recommends $PACKAGES_BUILD && \
-  gem install bundler --no-document -v $BUNDLER_VERSION
+    apt-get install -y --no-install-recommends curl gnupg && \
+    curl -fsSL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get remove -y cmdtest && \
+    curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
+    echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list && \
+    apt-get update && apt-get install -y --no-install-recommends $PACKAGES_BUILD && \
+    gem update --system && \
+    gem install bundler --no-document -v $BUNDLER_VERSION
 
 COPY Gemfile Gemfile.lock package.json yarn.lock $APP_ROOT/
 
@@ -60,7 +61,7 @@ COPY deployment/nginx.conf /etc/nginx/conf.d/default.conf
 # Development image
 #
 FROM builder-base AS development
-ARG GEMS_DEV="pessimizer rerun"
+ARG GEMS_DEV="pessimizer"
 ARG PACKAGES_DEV="zsh curl wget sudo"
 ARG PACKAGES_RUNTIME="tzdata nodejs"
 ARG USERNAME=developer
@@ -68,15 +69,15 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 RUN apt-get update && apt-get upgrade -y && \
-  apt-get install -y --no-install-recommends $PACKAGES_DEV $PACKAGES_RUNTIME && \
-  gem install $GEMS_DEV && \
-  addgroup --gid $USER_GID $USERNAME && \
-  adduser --home /home/$USERNAME --shell /bin/zsh --uid $USER_UID --gid $USER_GID $USERNAME && \
-  echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
-  mkdir -p $BUNDLE_PATH && \
-  mkdir -p $NODE_MODULES_PATH && \
-  chown -R $USERNAME:$USERNAME $BUNDLE_PATH && \
-  chown -R $USERNAME:$USERNAME $APP_ROOT
+    apt-get install -y --no-install-recommends $PACKAGES_DEV $PACKAGES_RUNTIME && \
+    gem install $GEMS_DEV && \
+    addgroup --gid $USER_GID $USERNAME && \
+    adduser --home /home/$USERNAME --shell /bin/zsh --uid $USER_UID --gid $USER_GID $USERNAME && \
+    echo "$USERNAME ALL=(ALL) NOPASSWD:ALL" > /etc/sudoers.d/$USERNAME && \
+    mkdir -p $BUNDLE_PATH && \
+    mkdir -p $NODE_MODULES_PATH && \
+    chown -R $USERNAME:$USERNAME $BUNDLE_PATH && \
+    chown -R $USERNAME:$USERNAME $APP_ROOT
 
 USER $USERNAME
 
