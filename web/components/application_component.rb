@@ -24,7 +24,7 @@ module Components
     def component_name
       inflector = Dry::Inflector.new
       full_class_path = inflector.underscore(self.class.to_s)
-      component_subpath = full_class_path.gsub(%r{\Acomponent/}, "")
+      component_subpath = full_class_path.gsub(%r{\Acomponents/}, "")
       inflector.dasherize(component_subpath).gsub("/", "-")
     end
   end
