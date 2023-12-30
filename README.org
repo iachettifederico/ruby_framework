@@ -1,1 +1,21 @@
-* Add a README
+* Add project specific README instructions
+
+
+* General instructions
+** To build the project
+
+#+begin_src sh
+  docker compose build
+#+end_src
+
+** To run specs
+
+#+begin_src sh
+  docker compose run app bundle exec rspec
+#+end_src
+
+** To run the console
+
+#+begin_src sh
+  docker compose run app bundle exec ./bin/console
+#+end_src
