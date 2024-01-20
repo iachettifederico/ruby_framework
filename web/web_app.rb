@@ -5,7 +5,7 @@ require "roda"
 class WebApp < Roda
   plugin :public, root: ROOT.join("web/public").to_s
   plugin :assets, css: "index.css", js: "index.js"
-  compile_assets
+  compile_assets if ENV["ENVIRONMENT_NAME"] == "production"
 
   route do |r|
     r.root do

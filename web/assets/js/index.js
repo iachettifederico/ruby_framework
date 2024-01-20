@@ -1,1 +1,2 @@
-console.log("It's working!")
+import * as Turbo from "@hotwired/turbo"
+
