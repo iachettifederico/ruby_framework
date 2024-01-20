@@ -7,8 +7,13 @@ module Layouts
         head do
           title { "Web App" }
           meta name: "viewport", content: "width=device-width,initial-scale=1"
+
           app.assets_paths(:css).each do |css_path|
             link(href: css_path, rel: "stylesheet")
+          end
+
+          app.assets_paths(:js).each do |js_path|
+            script(src: js_path)
           end
         end
 

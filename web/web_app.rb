@@ -4,7 +4,7 @@ require "roda"
 
 class WebApp < Roda
   plugin :public, root: ROOT.join("web/public").to_s
-  plugin :assets, css: "index.css"
+  plugin :assets, css: "index.css", js: "index.js"
   compile_assets
 
   route do |r|
@@ -13,6 +13,10 @@ class WebApp < Roda
     end
 
     r.assets
+
+    r.on "public" do
+      r.public
+    end
   end
 
   # Don't use this method except for tests
