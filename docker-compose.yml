@@ -41,6 +41,13 @@ services:
     volumes:
       - .:/app
 
+  esbuild:
+    <<: [*build-common, *app-common]
+    entrypoint: script/docker-entrypoint-tailwind.sh
+    command: "yarn esbuild web/assets/js/index.js --bundle --watch --outfile=assets/js/index.js"
+    volumes:
+      - .:/app
+
   guard:
     <<: [*build-common, *app-common]
     depends_on:
