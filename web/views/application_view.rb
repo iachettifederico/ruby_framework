@@ -2,6 +2,8 @@
 
 module Views
   class ApplicationView < Layouts::ApplicationLayout
+    register_element :turbo_frame
+
     def self.[](app)
       @app = app
       self
