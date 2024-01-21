@@ -1,7 +1,10 @@
 # frozen_string_literal: true
 
 module Components
-  class NavBar < Components::ApplicationComponent
+  class NavBar
+    include Phlex::HtmlRenderable
+    include Components::ApplicationComponent
+
     def template
       nav(class: "mb-4 text-slate-50 bg-slate-900") do
         ul(class: "flex gap-2 border-b") do
