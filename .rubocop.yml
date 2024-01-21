@@ -20,8 +20,10 @@ Layout/HashAlignment:
 
 Layout/LineLength:
   Exclude:
-  - "/web/views/**/*.rb"
-  - "/web/components/**/*.rb"
+  - web/components/**/*.rb
+  - web/forms/**/*.rb
+  - web/layouts/**/*.rb
+  - web/views/**/*.rb
 
 Layout/SpaceAroundEqualsInParameterDefault:
   Enabled: false
@@ -31,6 +33,13 @@ Lint/EmptyClass:
 
 Lint/MissingSuper:
   Enabled: false
+
+Metrics/AbcSize:
+  Exclude:
+  - web/components/**/*.rb
+  - web/forms/**/*.rb
+  - web/layouts/**/*.rb
+  - web/views/**/*.rb
 
 Metrics/BlockLength:
   Enabled: false
@@ -54,6 +63,7 @@ Style/BlockDelimiters:
   EnforcedStyle: semantic
   Exclude:
   - web/components/**/*.rb
+  - web/forms/**/*.rb
   - web/layouts/**/*.rb
   - web/views/**/*.rb
   BracesRequiredMethods:
