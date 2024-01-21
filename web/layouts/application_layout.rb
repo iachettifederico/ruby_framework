@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 module Layouts
-  class ApplicationLayout < Components::ApplicationComponent
+  module ApplicationLayout
+    include Phlex::HtmlRenderable
+
     def around_template
       html do
         head do

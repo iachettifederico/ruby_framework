@@ -4,11 +4,20 @@ require "phlex"
 require "dry/inflector"
 
 module Components
-  class ApplicationComponent < Phlex::HTML
-    def self.wrapper_options(new_options = {})
-      @wrapper_options ||= {}
-      @wrapper_options.merge!(new_options)
-      @wrapper_options
+  module ApplicationComponent
+    include Phlex::HtmlRenderable
+
+    def self.included(including_class)
+      super
+      including_class.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def wrapper_options(new_options = {})
+        @wrapper_options ||= {}
+        @wrapper_options.merge!(new_options)
+        @wrapper_options
+      end
     end
 
     private
