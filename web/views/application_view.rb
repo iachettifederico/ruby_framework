@@ -1,16 +1,25 @@
 # frozen_string_literal: true
 
 module Views
-  class ApplicationView < Layouts::ApplicationLayout
+  module ApplicationView
+    include Phlex::HtmlRenderable
+    include Layouts::ApplicationLayout
+
     register_element :turbo_frame
 
-    def self.[](app)
-      @app = app
-      self
+    def self.included(including_class)
+      including_class.extend(ClassMethods)
     end
 
-    def self.app
-      @app
+    module ClassMethods
+      def [](app)
+        @app = app
+        self
+      end
+
+      def app
+        @app
+      end
     end
 
     def app
