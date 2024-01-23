@@ -23,6 +23,7 @@ end
 group :test do
   gem "capybara"
   gem "cuprite"
+  gem "nokogiri"
   gem "rspec-given"
   gem "rspec-html-matchers"
 end

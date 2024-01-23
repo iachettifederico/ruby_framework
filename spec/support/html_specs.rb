@@ -3,7 +3,7 @@
 require "nokogiri"
 require "rspec-html-matchers"
 
-def node(html_string)
+def HTML(html_string)
   Nokogiri::HTML(html_string)
 end
 

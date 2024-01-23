@@ -3,6 +3,7 @@
 RSpec.configure do |config|
   config.around do |example|
     if %i[request web].include?(RSpec.current_example.metadata[:type])
+      RSpec.current_example.metadata[:html] = true
       require "capybara/rspec"
 
       config.include Capybara::DSL
@@ -25,9 +26,6 @@ RSpec.configure do |config|
           )
         end
       end
-
-      require "rspec-html-matchers"
-      config.include RSpecHtmlMatchers
     end
 
     example.run
