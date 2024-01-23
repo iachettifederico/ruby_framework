@@ -1,3 +1,2 @@
 /.zsh_history
-/node_modules/
-/public/
+/coverage/
