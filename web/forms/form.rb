@@ -24,8 +24,8 @@ module Forms
     module ClassMethods
     end
 
-    def initialize(object, **html_options)
-      super(object)
+    def initialize(**html_options)
+      super
 
       @css_class = build_class(html_options.delete(:class))
       @html_options = default_html_options.merge(html_options)
