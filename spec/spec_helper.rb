@@ -3,6 +3,7 @@
 ENV["ENVIRONMENT_NAME"] = "test"
 
 require "./boot"
+require "rspec-given"
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -16,6 +17,6 @@ end
 
 require "rake"
 
-FileList["./spec/support/**/*.rb"].each do |file|
+Dir.glob("./spec/support/**/*.rb").each do |file|
   require file
 end
