@@ -7,7 +7,10 @@
 module Forms
   module Form
     def around_template(&)
-      form(method: http_method) {}
+      form(
+        method: http_method,
+        action: action,
+      ) {}
     end
 
     def http_method?(potential_method)
@@ -19,6 +22,10 @@ module Forms
     end
 
     module ClassMethods
+      def action(an_action)
+        @action = an_action
+      end
+
       def http_method(an_html_method)
         #   # TODO: extract HttpMethod hierarchy
         @http_method = http_methods.find(
@@ -41,12 +48,20 @@ module Forms
       def http_method_option
         @http_method
       end
+
+      def action_option
+        @action
+      end
     end
 
     private
 
     def http_method
       self.class.http_method_option
+    end
+
+    def action
+      self.class.action_option
     end
 
     InvalidHttpMethod = Class.new(RuntimeError)

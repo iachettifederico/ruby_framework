@@ -7,6 +7,7 @@ RSpec.describe Forms::Form, html: true do
       include Forms::Form
 
       http_method(http_method)
+      action(action)
 
       class_eval(&block) if block_given?
     end
@@ -39,9 +40,7 @@ RSpec.describe Forms::Form, html: true do
           Then {
             result.has_tag?(
               "form",
-              with: {
-                method: http_method_to_test.downcase,
-              }
+              with: { method: http_method_to_test.downcase }
             )
           }
         end
@@ -87,12 +86,25 @@ RSpec.describe Forms::Form, html: true do
   end
 
   describe "action" do
-    
+    Given(:form_class) { build_form_class(action: action) }
+
+    context "" do
+      let(:action) { "/my_action" }
+
+      Then {
+        result.has_tag?(
+          "form",
+          with: { action: action }
+        )
+      }
+    end
   end
-  pending_context "different field types"
-  pending_context "form name"
+
   pending_context "form class"
-  pending_context "form id"
   pending_context "html options"
+
   pending_context "form name"
+  pending_context "different field types"
+
+  pending_context "form id for model-backed forms"
 end
