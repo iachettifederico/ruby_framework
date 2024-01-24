@@ -1,13 +1,22 @@
 # frozen_string_literal: true
 
 RSpec.describe Forms::Form, html: true do
-  def build_form_class(name: "", action: "", http_method: "get", target: "", &block)
+  pending_context "TODO: eliminate Forms::Form::ClassMethods. It's a buggy implementation because it's saving stuff at the class level"
+
+  def build_form_class(
+    name: "",
+    action: "",
+    http_method: "get",
+    css_class: "",
+    &block
+  )
     Class.new do
       include Phlex::HtmlRenderable
       include Forms::Form
 
       http_method(http_method)
       action(action)
+      css_class(css_class)
 
       class_eval(&block) if block_given?
     end
@@ -100,8 +109,45 @@ RSpec.describe Forms::Form, html: true do
     end
   end
 
-  pending_context "form class"
+  context "form class" do
+    Given(:form_class) { build_form_class(css_class: css_class) }
+
+    context "when passing a single class" do
+      let(:css_class) { "a_class" }
+
+      Then {
+        result.has_tag?(
+          "form",
+          with: { class: css_class }
+        )
+      }
+    end
+
+    context "when passing multiple classes as a string" do
+      let(:css_class) { "a_class another_class" }
+
+      Then {
+        result.has_tag?(
+          "form",
+          with: { class: css_class }
+        )
+      }
+    end
+
+    context "when passing multiple classes as an array" do
+      let(:css_class) { %w[a_class another_class] }
+
+      Then {
+        result.has_tag?(
+          "form",
+          with: { class: css_class.join(" ") }
+        )
+      }
+    end
+  end
+
   pending_context "html options"
+  pending_context "target"
 
   pending_context "form name"
   pending_context "different field types"
