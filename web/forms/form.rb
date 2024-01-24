@@ -9,8 +9,9 @@ module Forms
     def around_template(&)
       form(
         method: http_method,
-        class: css_class,
+        class:  css_class,
         action: action,
+        **html_options,
       ) {}
     end
 
@@ -42,6 +43,10 @@ module Forms
         }
       end
 
+      def html_options(**some_html_options)
+        @html_options = some_html_options
+      end
+
       def http_methods
         %w[get post delete patch put head options connect trace]
       end
@@ -61,6 +66,10 @@ module Forms
       def css_class_option
         @css_class
       end
+
+      def html_options_option
+        @html_options
+      end
     end
 
     private
@@ -76,7 +85,11 @@ module Forms
     def css_class
       self.class.css_class_option
     end
-    
+
+    def html_options
+      self.class.html_options_option
+    end
+
     InvalidHttpMethod = Class.new(RuntimeError)
     INVALID_HTTP_METHOD = "Invalid HTTP Method"
   end

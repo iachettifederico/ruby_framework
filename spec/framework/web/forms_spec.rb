@@ -8,6 +8,7 @@ RSpec.describe Forms::Form, html: true do
     action: "",
     http_method: "get",
     css_class: "",
+    **html_options,
     &block
   )
     Class.new do
@@ -17,6 +18,7 @@ RSpec.describe Forms::Form, html: true do
       http_method(http_method)
       action(action)
       css_class(css_class)
+      html_options(**html_options)
 
       class_eval(&block) if block_given?
     end
@@ -146,7 +148,21 @@ RSpec.describe Forms::Form, html: true do
     end
   end
 
-  pending_context "html options"
+  context "html options" do
+    Given(:form_class) { build_form_class(htmloption: an_option) }
+
+    context "when passing a single class" do
+      let(:an_option) { "my-option" }
+
+      Then {
+        result.has_tag?(
+          "form",
+          with: { htmloption: an_option }
+        )
+      }
+    end
+  end
+
   pending_context "target"
 
   pending_context "form name"
