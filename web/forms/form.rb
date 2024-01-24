@@ -7,12 +7,53 @@
 module Forms
   module Form
     def around_template(&)
-      form do
-        div(tete: "toto") { "pepe"}
+      form(method: http_method) {}
+    end
+
+    def http_method?(potential_method)
+      self.class.http_method?(potential_method)
+    end
+
+    def self.included(including_class)
+      including_class.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def http_method(an_html_method)
+        #   # TODO: extract HttpMethod hierarchy
+        @http_method = http_methods.find(
+          proc {
+            raise InvalidHttpMethod, INVALID_HTTP_METHOD
+          }
+        ) { |http_method|
+          an_html_method.downcase == http_method
+        }
+      end
+
+      def http_methods
+        %w[get post delete patch put head options connect trace]
+      end
+
+      def http_method?(potential_method)
+        @http_method == potential_method.downcase
+      end
+
+      def http_method_option
+        @http_method
       end
     end
+
+    private
+
+    def http_method
+      self.class.http_method_option
+    end
+
+    InvalidHttpMethod = Class.new(RuntimeError)
+    INVALID_HTTP_METHOD = "Invalid HTTP Method"
   end
 end
+
 # module Forms
 #   module Form
 #     include Phlex::HtmlRenderable

@@ -1,39 +1,98 @@
 # frozen_string_literal: true
 
 RSpec.describe Forms::Form, html: true do
-  def build_form_class(&block)
+  def build_form_class(name: "", action: "", http_method: "get", target: "", &block)
     Class.new do
       include Phlex::HtmlRenderable
       include Forms::Form
+
+      http_method(http_method)
 
       class_eval(&block) if block_given?
     end
   end
 
   Given(:form_class) {
-    build_form_class do
-      def template; end
-    end
+    build_form_class
   }
   Given(:form) { form_class.new }
   Given(:html_string) { form.call }
 
   When(:result) { HTML(html_string) }
 
-  Then {
-    result.has_tag?("form")
-  }
+  describe "empty form" do
+    Then { result.has_tag?("form") }
+  end
 
-  pending_context "methods"
-  pending_context "actions"
+  describe "basic attributes" do
+    shared_context "method" do |http_method_to_test|
+      Given(:form_class) { build_form_class(http_method: http_method) }
+
+      context "when the method is #{http_method_to_test.upcase}" do
+        Given(:expected_method) { http_method_to_test.downcase }
+        Given(:expected_upcased_method) { expected_method.upcase }
+
+        Given(:http_method) { http_method_to_test.downcase }
+        Given(:uppercase_http_method) { http_method_to_test.upcase }
+
+        context "rendering" do
+          Then {
+            result.has_tag?(
+              "form",
+              with: {
+                method: http_method_to_test.downcase,
+              }
+            )
+          }
+        end
+
+        context "in lowercase" do
+          Then { form.http_method?(expected_method) == true }
+          And { form.http_method?(expected_upcased_method) == true }
+
+          (
+            %w[get post delete patch put head options connect trace] -
+            [http_method_to_test.downcase]
+          ).each do |potential_method|
+            And { form.http_method?(potential_method) == false }
+          end
+        end
+
+        context "in uppercase" do
+          Given(:form_class) { build_form_class(http_method: uppercase_http_method) }
+
+          Then { form.http_method?(expected_method) == true }
+          And { form.http_method?(uppercase_http_method) == true }
+        end
+      end
+    end
+
+    describe "http methods" do
+      include_context "method", "get"
+      include_context "method", "post"
+      include_context "method", "put"
+      include_context "method", "head"
+      include_context "method", "delete"
+      include_context "method", "patch"
+      include_context "method", "options"
+      include_context "method", "connect"
+      include_context "method", "trace"
+
+      context "non-existent method" do
+        When(:result) { build_form_class(http_method: "other") }
+
+        Then { result == Failure(Forms::Form::InvalidHttpMethod, Forms::Form::INVALID_HTTP_METHOD) }
+      end
+    end
+  end
+
+  describe "action" do
+    
+  end
   pending_context "different field types"
   pending_context "form name"
   pending_context "form class"
   pending_context "form id"
   pending_context "html options"
-  pending_context ""
-  pending_context ""
-  pending_context ""
-  pending_context ""
-  pending_context ""
+  pending_context "form name"
 end
