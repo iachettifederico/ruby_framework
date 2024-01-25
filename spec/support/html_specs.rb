@@ -11,7 +11,7 @@ module HtmlMatchers
   def has_tag?(tagname, text: nil, with: {})
     nodes = css(tagname)
 
-    node_exists = !nodes.empty?
+    return false unless node_exists?(nodes)
 
     nodes.any? { |node|
       node_has_text?(node, text) &&
@@ -39,6 +39,10 @@ module HtmlMatchers
     attributes.all? { |attr, value|
       node[attr.to_s] == value
     }
+  end
+
+  def node_exists?(nodes)
+    !nodes.empty?
   end
 end
 

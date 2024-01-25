@@ -84,5 +84,34 @@ RSpec.describe Forms::Form do
         Then { form == Failure(Forms::Form::InvalidHttpMethod, Forms::Form::INVALID_HTTP_METHOD) }
       end
     end
+
+    describe "html options" do
+      context "when passing one html option" do
+        Given(:action) { "/my_action" }
+
+        When(:form) { form_class.new(action: action) }
+
+        Then { result.has_tag?("form", with: { action: action }) }
+      end
+
+      context "when passing multiple html options" do
+        Given(:target) { "_blank" }
+        Given(:autocomplete) { :on }
+
+        When(:form) {
+          form_class.new(
+            target:       target,
+            autocomplete: autocomplete,
+          )
+        }
+
+        Then {
+          result.has_tag?("form", with: {
+                            target:       target,
+                            autocomplete: autocomplete.to_s,
+                          })
+        }
+      end
+    end
   end
 end
