@@ -48,8 +48,3 @@ end
 ].each do |node_type|
   node_type.include(HtmlMatchers)
 end
-
-RSpec.configure do |config|
-  config.before do
-  end
-end
