@@ -8,7 +8,7 @@ module Forms
       private
 
       def type
-        "date"
+        "datetime-local"
       end
     end
   end

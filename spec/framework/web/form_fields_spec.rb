@@ -101,20 +101,27 @@ RSpec.describe Forms::Fields do
     end
   end
 
-  # describe "text-ish fields" do
-  #   describe Forms::Fields::TextField do
-  #   end
-  # end
+  describe "field types" do
+    shared_context "field type" do |type, type_text|
+      describe type do
+        When(:field) { described_class.new(:my_field_name) }
 
-  pending_describe "text_field"
-  pending_describe "hidden_field"
-  pending_describe "password_field"
-  pending_describe "number_field"
-  pending_describe "email_field"
-  pending_describe "search_field"
-  pending_describe "date_field"
-  pending_describe "datetime_local_field"
-  pending_describe "color_field"
+        Then { result.has_tag?("input", with: { type: type_text }) }
+      end
+    end
+
+    include_context "field type", Forms::Fields::TextField, "text"
+    include_context "field type", Forms::Fields::HiddenField, "hidden"
+    include_context "field type", Forms::Fields::HiddenField, "hidden"
+    include_context "field type", Forms::Fields::PasswordField, "password"
+    include_context "field type", Forms::Fields::NumberField, "number"
+    include_context "field type", Forms::Fields::EmailField, "email"
+    include_context "field type", Forms::Fields::SearchField, "search"
+    include_context "field type", Forms::Fields::DateField, "date"
+    include_context "field type", Forms::Fields::DatetimeLocalField, "datetime-local"
+    include_context "field type", Forms::Fields::ColorField, "color"
+  end
+
   pending_describe "select"
   pending_describe "button"
   pending_describe "checkbox"

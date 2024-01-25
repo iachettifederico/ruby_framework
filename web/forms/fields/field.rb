@@ -5,9 +5,10 @@ module Forms
     class Field
       include Phlex::HtmlRenderable
 
-      def initialize(name, value: nil, **html_options)
+      def initialize(name, value: nil, type: nil, **html_options)
         @name = name
         @value = value
+        @type = type
         @css_classes = build_css_classes(html_options.delete(:class))
         @html_options = html_options
       end
@@ -16,6 +17,7 @@ module Forms
         input(
           name:  name,
           value: value,
+          type:  type,
           class: css_classes,
           **html_options
         )
@@ -26,6 +28,7 @@ module Forms
       attr_reader :name
       attr_reader :value
       attr_reader :html_options
+      attr_reader :type
 
       def css_classes
         default_css_classes + @css_classes
