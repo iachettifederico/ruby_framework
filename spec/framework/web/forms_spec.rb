@@ -113,5 +113,52 @@ RSpec.describe Forms::Form do
         }
       end
     end
+
+    describe "form class" do
+      When(:form) { form_class.new(class: css_class) }
+
+      context "when giving it a simple html class" do
+        Given(:css_class) { "a_class" }
+
+        Then { result.has_tag?("form", with: { class: css_class }) }
+      end
+
+      context "when giving it multiple html classes as a string" do
+        Given(:css_class) { "a_class other_class" }
+
+        Then { result.has_tag?("form", with: { class: css_class }) }
+      end
+
+      context "when giving it multiple html classes as an array of strings" do
+        Given(:css_class) { %w[a_class other_class] }
+
+        Then { result.has_tag?("form", with: { class: css_class.join(" ") }) }
+      end
+
+      describe "default css class" do
+        Given(:form_class) {
+          Class.new {
+            include Phlex::Renderable
+            include Forms::Form
+
+            def default_classes
+              "my-default-class"
+            end
+          }
+        }
+
+        context "when NOT specifying a class in the initializer" do
+          When(:form) { form_class.new }
+
+          Then { result.has_tag?("form", with: { class: "my-default-class" }) }
+        end
+
+        context "when specifying a class in the initializer" do
+          When(:form) { form_class.new(class: "my-class") }
+
+          Then { result.has_tag?("form", with: { class: "my-default-class my-class" }) }
+        end
+      end
+    end
   end
 end

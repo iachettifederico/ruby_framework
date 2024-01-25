@@ -5,12 +5,17 @@ module Forms
     include Phlex::HtmlRenderable
 
     def initialize(method: "post", **html_options)
-      @http_method = get_http_method(method)
+      @http_method = build_http_method(method)
+      @css_class = build_css_class(html_options.delete(:class))
       @html_options = html_options.transform_values(&:to_s)
     end
 
     def around_template
-      form(method: http_method, **html_options)
+      form(
+        method: http_method,
+        class:  css_class,
+        **html_options
+      )
     end
 
     def http_method?(potential_http_method)
@@ -32,17 +37,28 @@ module Forms
 
     attr_reader :http_method
     attr_reader :html_options
+    attr_reader :css_class
 
-    def get_http_method(an_http_method)
+    def build_http_method(an_http_method)
       downcased_http_method = an_http_method.downcase
       raise InvalidHttpMethod, INVALID_HTTP_METHOD unless http_methods.include?(downcased_http_method)
 
       downcased_http_method
     end
 
-    def http_methods
-      self.class.http_methods
+    def build_css_class(some_css_classes)
+      [].concat(arrayify_css_classes(some_css_classes))
     end
+
+    def arrayify_css_classes(some_css_classes)
+      (
+        Array(default_classes) +
+        Array(some_css_classes)
+      ).join(" ").split(" ")
+    end
+
+    def http_methods = self.class.http_methods
+    def default_classes = []
 
     InvalidHttpMethod = Class.new(RuntimeError)
     INVALID_HTTP_METHOD = "Invalid HTTP Method"
