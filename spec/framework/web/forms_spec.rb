@@ -161,4 +161,16 @@ RSpec.describe Forms::Form do
       end
     end
   end
+
+  describe "form name" do
+    Given(:form) { form_class.new(name: "my-form") }
+
+    Then { form.named?("my-form") == true }
+    And { form.named?("not-my-form") == false }
+    Then { result.has_tag?("form", with: { name: "my-form" }) == false }
+  end
+
+  pending_context "different field types"
+
+  pending_context "form id for model-backed forms"
 end

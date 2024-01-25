@@ -4,9 +4,10 @@ module Forms
   module Form
     include Phlex::HtmlRenderable
 
-    def initialize(method: "post", **html_options)
+    def initialize(name: "", method: "post", **html_options)
       @http_method = build_http_method(method)
       @css_class = build_css_class(html_options.delete(:class))
+      @name = name
       @html_options = html_options.transform_values(&:to_s)
     end
 
@@ -26,6 +27,10 @@ module Forms
       including_class.extend(ClassMethods)
     end
 
+    def named?(potential_name)
+      name == potential_name
+    end
+    
     module ClassMethods
       def http_methods
         %w[get post delete patch put head options connect trace]
@@ -38,6 +43,7 @@ module Forms
     attr_reader :http_method
     attr_reader :html_options
     attr_reader :css_class
+    attr_reader :name
 
     def build_http_method(an_http_method)
       downcased_http_method = an_http_method.downcase
