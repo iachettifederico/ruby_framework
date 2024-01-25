@@ -30,7 +30,7 @@ module Forms
     def named?(potential_name)
       name == potential_name
     end
-    
+
     module ClassMethods
       def http_methods
         %w[get post delete patch put head options connect trace]
@@ -60,7 +60,7 @@ module Forms
       (
         Array(default_classes) +
         Array(some_css_classes)
-      ).join(" ").split(" ")
+      ).join(" ").split
     end
 
     def http_methods = self.class.http_methods
