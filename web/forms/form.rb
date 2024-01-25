@@ -6,6 +6,9 @@
 
 module Forms
   module Form
+    def initialize
+    end
+
     def around_template(&)
       form(
         method: http_method,
@@ -56,7 +59,7 @@ module Forms
       end
 
       def http_method_option
-        @http_method
+        @http_method || "post"
       end
 
       def action_option
@@ -68,7 +71,7 @@ module Forms
       end
 
       def html_options_option
-        @html_options
+        @html_options || {}
       end
     end
 

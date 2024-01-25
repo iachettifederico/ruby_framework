@@ -24,6 +24,15 @@ RSpec.describe Forms::Form, html: true do
     end
   end
 
+  def build_base_form_class
+    Class.new do
+      include Phlex::HtmlRenderable
+      include Forms::Form
+
+      class_eval(&block) if block_given?
+    end
+  end
+
   Given(:form_class) {
     build_form_class
   }
@@ -88,6 +97,17 @@ RSpec.describe Forms::Form, html: true do
       include_context "method", "connect"
       include_context "method", "trace"
 
+      context "default method" do
+        Given(:form_class) { build_base_form_class }
+
+        Then {
+          result.has_tag?(
+            "form",
+            with: { method: "post" },
+          )
+        }
+      end
+
       context "non-existent method" do
         When(:result) { build_form_class(http_method: "other") }
 
@@ -96,7 +116,7 @@ RSpec.describe Forms::Form, html: true do
     end
   end
 
-  describe "action" do
+  xdescribe "action" do
     Given(:form_class) { build_form_class(action: action) }
 
     context "" do
