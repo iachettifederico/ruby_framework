@@ -9,6 +9,7 @@ module Forms
         @name = name
         @value = value
         @css_classes = Array(html_options.delete(:class))
+        @html_options = html_options
       end
 
       def template
@@ -16,6 +17,7 @@ module Forms
           name:  name,
           value: value,
           class: css_classes,
+          **html_options
         )
       end
       # def initialize(name, **html_options)
@@ -39,8 +41,7 @@ module Forms
 
       attr_reader :name
       attr_reader :value
-
-      # attr_reader :html_options
+      attr_reader :html_options
 
       def css_classes
         default_css_classes + @css_classes

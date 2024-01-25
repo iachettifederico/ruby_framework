@@ -79,7 +79,32 @@ RSpec.describe Forms::Fields do
         }
       end
     end
+
+    describe "html options" do
+      context "adding one html option" do
+        When(:field) { described_class.new(:field_name, placeholder: "a placeholder") }
+
+        Then { result.has_tag?("input", with: { placeholder: "a placeholder" }) }
+      end
+
+      context "adding multiple html options" do
+        When(:field) { described_class.new(:field_name, placeholder: "a placeholder", size: "10") }
+
+        Then { result.has_tag?("input", with: { placeholder: "a placeholder", size: "10" }) }
+      end
+
+      context "numeric html option" do
+        When(:field) { described_class.new(:field_name, size: 20) }
+
+        Then { result.has_tag?("input", with: { size: "20" }) }
+      end
+    end
   end
+
+  # describe "text-ish fields" do
+  #   describe Forms::Fields::TextField do
+  #   end
+  # end
 
   pending_describe "text_field"
   pending_describe "hidden_field"
