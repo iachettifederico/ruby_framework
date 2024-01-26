@@ -19,7 +19,7 @@ module Forms
       )
     end
 
-    def template; end
+    def template(*); end
 
     def http_method?(potential_http_method)
       http_method == potential_http_method.downcase

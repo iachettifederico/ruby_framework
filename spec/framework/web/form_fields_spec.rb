@@ -136,4 +136,112 @@ RSpec.describe Forms::Fields do
   pending_describe "time"
   pending_describe "url"
   pending_describe "week"
+
+  describe Forms::Fields::Label do
+    describe "empty label" do
+      When(:field) { described_class.new(:my_field_is_for) }
+
+      Then {
+        result.has_tag?(
+          "label",
+          with: {
+            for: "my_field_is_for",
+          },
+          text: "my_field_is_for",
+        )
+      }
+    end
+
+    describe "value" do
+      When(:field) { described_class.new(:my_field_is_for, text: "Label text") }
+
+      Then {
+        result.has_tag?(
+          "label",
+          with: {
+            for: "my_field_is_for",
+          },
+          text: "Label text",
+        )
+      }
+    end
+
+    describe "css class attribute" do
+      Given(:default_css_classes) { [] }
+
+      When(:field) { described_class.new(:field_name, class: css_class) }
+
+      context "when giving it a simple html class" do
+        Given(:css_class) { "a_class"  }
+
+        Then {
+          result.has_tag?(
+            "label",
+            with: {
+              class: (default_css_classes + [css_class]).join(" "),
+            }
+          )
+        }
+      end
+
+      context "when giving it multiple html classes as a string" do
+        Given(:css_class) { "a_class another_class" }
+
+        Then {
+          result.has_tag?(
+            "label",
+            with: {
+              class: (default_css_classes + [css_class]).join(" "),
+            }
+          )
+        }
+      end
+
+      context "when giving it multiple html classes as an array of strings" do
+        Given(:css_class) { %w[a_class another_class] }
+
+        Then {
+          result.has_tag?(
+            "label",
+            with: {
+              class: (default_css_classes + css_class).join(" "),
+            }
+          )
+        }
+      end
+
+      describe "default css class" do
+        When(:field) { described_class.new(:field_name) }
+
+        Then {
+          result.has_tag?(
+            "label",
+            with: {
+              class: default_css_classes.join(" "),
+            }
+          )
+        }
+      end
+    end
+
+    describe "html options" do
+      context "adding one html option" do
+        When(:field) { described_class.new(:field_name, placeholder: "a placeholder") }
+
+        Then { result.has_tag?("label", with: { placeholder: "a placeholder" }) }
+      end
+
+      context "adding multiple html options" do
+        When(:field) { described_class.new(:field_name, placeholder: "a placeholder", size: "10") }
+
+        Then { result.has_tag?("label", with: { placeholder: "a placeholder", size: "10" }) }
+      end
+
+      context "numeric html option" do
+        When(:field) { described_class.new(:field_name, size: 20) }
+
+        Then { result.has_tag?("label", with: { size: "20" }) }
+      end
+    end
+  end
 end
