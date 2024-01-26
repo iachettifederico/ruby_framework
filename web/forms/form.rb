@@ -68,6 +68,58 @@ module Forms
     def http_methods = self.class.http_methods
     def default_classes = []
 
+    def color_field(...)
+      render Forms::Fields::ColorField.new(...)
+    end
+
+    def date_field(...)
+      render Forms::Fields::DateField.new(...)
+    end
+
+    def datetime_local_field(...)
+      render Forms::Fields::DatetimeLocalField.new(...)
+    end
+
+    def email_field(...)
+      render Forms::Fields::EmailField.new(...)
+    end
+
+    def field(...)
+      render Forms::Fields.field.new(...)
+    end
+
+    def hidden_field(...)
+      render Forms::Fields::HiddenField.new(...)
+    end
+
+    def label(...)
+      render Forms::Fields::Label.new(...)
+    end
+
+    def number_field(...)
+      render Forms::Fields::NumberField.new(...)
+    end
+
+    def password_field(...)
+      render Forms::Fields::PasswordField.new(...)
+    end
+
+    def search_field(...)
+      render Forms::Fields::SearchField.new(...)
+    end
+
+    def select(...)
+      render Forms::Fields::Select.new(...)
+    end
+
+    def text_field(...)
+      render Forms::Fields::TextField.new(...)
+    end
+
+    def field_wrapper(&)
+      div(&)
+    end
+
     InvalidHttpMethod = Class.new(RuntimeError)
     INVALID_HTTP_METHOD = "Invalid HTTP Method"
   end
