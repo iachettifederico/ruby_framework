@@ -11,13 +11,15 @@ module Forms
       @html_options = html_options.transform_values(&:to_s)
     end
 
-    def around_template
+    def around_template(&)
       form(
         method: http_method,
         class:  css_class,
-        **html_options
+        **html_options, &
       )
     end
+
+    def template; end
 
     def http_method?(potential_http_method)
       http_method == potential_http_method.downcase

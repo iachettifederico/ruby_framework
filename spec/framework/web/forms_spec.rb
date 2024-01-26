@@ -20,6 +20,22 @@ RSpec.describe Forms::Form do
     Then { result.has_tag?("form") }
   end
 
+  describe "form with content" do
+    When(:form_class) {
+      Class.new {
+        include Phlex::Renderable
+        include Forms::Form
+
+        def template
+          h1 { "form content" }
+        end
+      }
+    }
+    When(:form) { form_class.new }
+
+    Then { result.has_tag?("form > h1", text: "form content") }
+  end
+
   describe "basic attributes" do
     shared_context "method" do |tested_method|
       When(:form) { form_class.new(method: method) }
