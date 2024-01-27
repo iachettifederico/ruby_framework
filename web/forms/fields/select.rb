@@ -18,7 +18,7 @@ module Forms
       end
 
       def template
-        select(value: value, name: name, class: css_class, **html_options) do
+        select(value: value, name: name, class: css_classes, **html_options) do
           options.each do |option_text, option_value|
             option(value: option_value) { option_text }
           end
