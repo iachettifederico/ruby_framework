@@ -11,6 +11,8 @@ module Views
       p(class: "mx-3 text-slate-600") { "On file #{__FILE__}" }
 
       p(class: "mx-3 text-slate-600") { "Current time #{Time.now}" }
+
+      render Forms::ExampleForm.new
     end
   end
 end

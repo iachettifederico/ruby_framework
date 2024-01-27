@@ -18,21 +18,14 @@ services:
   web:
     <<: [*build-common, *app-common]
     command: "rerun --pattern **/*.{rb,ru,yml} -- bundle exec rackup --host=0.0.0.0"
-    tty: true
-    stdin_open: true
     entrypoint: script/docker-entrypoint.sh
     depends_on:
       - tailwindcss
     environment:
       ENVIRONMENT_NAME: development
       HISTFILE: /app/.zsh_history
-    expose:
-      - 9292
     ports:
       - "9292:9292"
-    volumes:
-      - .:/app
-      - bundler:/bundler
 
   tailwindcss:
     <<: [*build-common, *app-common]

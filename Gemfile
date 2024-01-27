@@ -21,7 +21,11 @@ group :development do
 end
 
 group :test do
-  gem "rspec"
+  gem "capybara"
+  gem "cuprite"
+  gem "nokogiri"
+  gem "rspec-given"
+  gem "rspec-html-matchers"
 end
 
 group :development, :test do
