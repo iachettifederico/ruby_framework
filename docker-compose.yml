@@ -17,7 +17,7 @@ x-app-common: &app-common
 services:
   web:
     <<: [*build-common, *app-common]
-    command: "rerun --pattern **/*.{rb,ru,yml} -- bundle exec rackup --host=0.0.0.0"
+    command: "rerun --pattern **/*.{rb,ru,yml} -- bundle exec rackup --host=0.0.0.0 --pid ./server.pid"
     tty: true
     stdin_open: true
     entrypoint: script/docker-entrypoint.sh
@@ -52,10 +52,9 @@ services:
     <<: [*build-common, *app-common]
     depends_on:
       - web
-    command: bundle exec guard
+    command: bundle exec guard --force-polling --latency=0.5
     ports:
       - "35729:35729"
-
 
 volumes:
   bundler:
