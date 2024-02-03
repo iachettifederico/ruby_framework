@@ -10,13 +10,14 @@ module Layouts
           title { "Web App" }
           meta name: "viewport", content: "width=device-width,initial-scale=1"
 
-          app.assets_paths(:css).each do |css_path|
-            link(href: css_path, rel: "stylesheet")
-          end
+          link(href: "/public/css/index.css", rel: "stylesheet")
 
-          app.assets_paths(:js).each do |js_path|
-            script(src: js_path)
-          end
+          script(src: "/public/js/index.js")
+
+          script(
+            src:         "https://kit.fontawesome.com/c496ff71df.js",
+            crossorigin: "anonymous"
+          )
         end
 
         body do
@@ -25,6 +26,8 @@ module Layouts
           main(class: "mx-4") do
             yield
           end
+
+          render Components::DevTool.new if ENV.fetch("DEV_TOOL", false)
         end
       end
     end
