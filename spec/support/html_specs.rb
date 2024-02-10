@@ -19,6 +19,10 @@ module HtmlMatchers
     }
   end
 
+  def empty_element?
+    children.empty?
+  end
+
   def find_tag(tagname)
     css(tagname).first
   end

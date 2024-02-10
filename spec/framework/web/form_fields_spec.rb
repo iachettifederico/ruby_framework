@@ -172,7 +172,7 @@ RSpec.describe Forms::Fields do
       When(:field) { described_class.new(:field_name, class: css_class) }
 
       context "when giving it a simple html class" do
-        Given(:css_class) { "a_class"  }
+        When(:css_class) { "a_class"  }
 
         Then {
           result.has_tag?(
@@ -185,7 +185,7 @@ RSpec.describe Forms::Fields do
       end
 
       context "when giving it multiple html classes as a string" do
-        Given(:css_class) { "a_class another_class" }
+        When(:css_class) { "a_class another_class" }
 
         Then {
           result.has_tag?(
@@ -198,7 +198,7 @@ RSpec.describe Forms::Fields do
       end
 
       context "when giving it multiple html classes as an array of strings" do
-        Given(:css_class) { %w[a_class another_class] }
+        When(:css_class) { %w[a_class another_class] }
 
         Then {
           result.has_tag?(

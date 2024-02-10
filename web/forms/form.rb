@@ -4,10 +4,11 @@ module Forms
   module Form
     include Phlex::HtmlRenderable
 
-    def initialize(name: "", method: "post", **html_options)
+    def initialize(name: "", method: "post", errors: {}, **html_options)
       @http_method = build_http_method(method)
       @css_class = build_css_class(html_options.delete(:class))
       @name = name
+      @errors = errors
       @html_options = html_options.transform_values(&:to_s)
     end
 
@@ -46,6 +47,7 @@ module Forms
     attr_reader :html_options
     attr_reader :css_class
     attr_reader :name
+    attr_reader :errors
 
     def build_http_method(an_http_method)
       downcased_http_method = an_http_method.downcase
@@ -114,6 +116,23 @@ module Forms
 
     def text_field(...)
       render Forms::Fields::TextField.new(...)
+    end
+
+    def errors_for(field_name)
+      render Forms::Errors.for(
+        field_name,
+        errors:             errors[field_name],
+        errors_css_classes: errors_css_classes,
+        error_css_classes:  error_css_classes,
+      )
+    end
+
+    def errors_css_classes
+      []
+    end
+
+    def error_css_classes
+      []
     end
 
     def field_wrapper(&)
