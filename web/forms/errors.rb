@@ -8,21 +8,13 @@ module Forms
                  errors: [],
                  errors_css_classes: [],
                  error_css_classes: [])
-      new(
+      subclasses.find { |subclass|
+        subclass.for?(errors)
+      }.new(
         field_name: field_name, errors: errors,
         errors_css_classes: errors_css_classes,
         error_css_classes: error_css_classes,
       )
-    end
-
-    def template
-      return if errors.empty?
-
-      div(class: errors_css_classes) {
-        errors.each do |error|
-          span(class: error_css_classes) { error }
-        end
-      }
     end
 
     private
