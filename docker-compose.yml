@@ -15,13 +15,12 @@ x-app-common: &app-common
 services:
   app:
     <<: [*build-common, *app-common]
-    command: bundle exec rails s -b 0.0.0.0
-    ports:
-      - "3000:3000"
+    stdin_open: true
+    tty: true
+    entrypoint: script/docker-entrypoint.sh
     environment:
       ENVIRONMENT: development
       HISTFILE: /app/.zsh_history
-      REDIS_URL: redis://redis:6379/0
 
 volumes:
   bundler:
